@@ -1,112 +1,140 @@
 # 🧪 Google Testing with GTest (C++)
 
-This repository demonstrates how to write and run **unit tests in C++** using the **Google Test (GTest)** framework. It includes example programs, a shell script for building tests, and Google Test itself — no extra setup required!
+This repository demonstrates how to use [GoogleTest](https://github.com/google/googletest) to write and run unit tests for C++ programs. It includes an example test for a function that finds the largest of three numbers.
 
 ---
 
-## 📁 Project Structure
+## 📁 Repository Contents
 
 ```
-.
-├── googletest/              # GoogleTest framework (already included)
-├── build.sh                 # Bash script to compile test files
-├── test_bignum.cpp          # Unit tests using GTest
-├── test_bignum              # Executables
-├── *.cpp                    # Practice programs
+google-testing/
+├── example.cpp       # Example test file using GoogleTest
+├── build.sh          # Your build script (you will create this)
+├── googletest/       # Auto-generated when you build for the first time
+├── test_bignum.cpp   # Unit tests using GTest
+├── *.cpp             # Practice programs
 └── README.md
 ```
 
 ---
 
-## 💻 Tested On
+## 🚀 How to Use This Project
 
-- ✅ Linux (Ubuntu/Debian)
-- ⚠️ Not tested on Windows or macOS (but should work with some tweaks)
-
----
-
-## 🚀 Getting Started
-
-### 1️⃣ Clone the Repository
+### 1. Clone This Repository
 
 ```bash
 git clone https://github.com/NaimParvez/google-testing.git
 cd google-testing
 ```
 
-> ✅ No need to install GoogleTest manually — it's already included in the `googletest/` folder.
-
 ---
 
-## 🛠 Compile and Run Tests
+### 2. Create the Build Script
 
-### 2️⃣ Make `build.sh` Executable
+Create a file named `build.sh` in the root of the repo, and paste the following code into it:
+
+```bash
+#!/bin/bash
+
+# Check if at least one argument (source file) is provided
+if [ $# -eq 0 ]; then
+    echo 'Usage: ./build.sh <source_file.cpp> [output_file]'
+    exit 1
+fi
+
+# Set output file
+output=$(basename "$1" .cpp)
+if [ $# -eq 2 ]; then
+    output=$2
+fi
+
+# GoogleTest directory setup
+GTEST_DIR="googletest"
+GTEST_LIB="$GTEST_DIR/build/lib/libgtest.a"
+
+# Clone and build googletest if not already done
+if [ ! -f "$GTEST_LIB" ]; then
+    echo "GoogleTest not found. Cloning and building GoogleTest..."
+    git clone https://github.com/google/googletest.git -b release-1.12.0
+    cd "$GTEST_DIR" || exit
+    mkdir -p build
+    cd build || exit
+    cmake .. -DBUILD_GMOCK=OFF
+    make
+    cd ../../
+else
+    echo "GoogleTest already built. Skipping clone/build..."
+fi
+
+# Compile the program
+echo "Compiling $1..."
+g++ "$1" "$GTEST_LIB" -lpthread -I "$GTEST_DIR/googletest/include" -o "$output"
+
+echo "Build complete. Output: $output"
+```
+
+Then make the script executable:
 
 ```bash
 chmod +x build.sh
 ```
 
-### 3️⃣ Compile a Test File
+---
+
+### 3. Build and Run the Test
 
 ```bash
-./build.sh test_bignum.cpp
+./build.sh example.cpp
+./example
 ```
 
-This will create an executable named `test_bignum`.
-
-### 4️⃣ Run the Tests
-
-```bash
-./test_bignum
-```
-
-You'll see the test output in GTest's clean and readable format.
+- The first time you run it, the script will:
+  - Clone GoogleTest (release-1.12.0)
+  - Build GoogleTest from source
+  - Compile your C++ test file
 
 ---
 
-## 🔎 Function Being Tested
+## 📦 Requirements
+
+- `g++` (C++ compiler)
+- `pthread` (POSIX thread library)
+
+### 🧪 Example Test Case
+
+The included `example.cpp` tests the function:
 
 ```cpp
-int findBiggestNumber(int num1, int num2, int num3);
+int findBiggestNumber(int a, int b, int c);
 ```
 
-Test cases include:
-- First, second, or third number being the biggest
-- Negative numbers
-- All numbers equal
+using multiple unit test cases with GoogleTest.
 
 ---
 
-## 📦 Requirements (for Linux)
+## 💡 Notes
 
-Make sure the following are installed:
+- Tested on **Linux** (Ubuntu/Debian-based systems).
+- Only needs to download GoogleTest once.
+- You can replace `example.cpp` with any test file you write.
 
-- `g++`
-- `make` (optional but useful)
-- `libpthread` (usually already included)
+---
 
-Install via:
+## 📎 Manual GoogleTest Setup (Optional)
+
+If you prefer to manually clone and build GoogleTest:
 
 ```bash
-sudo apt update
-sudo apt install g++
+git clone https://github.com/google/googletest.git -b release-1.12.0
+cd googletest
+mkdir build
+cd build
+cmake .. -DBUILD_GMOCK=OFF
+make
 ```
 
----
-
-## 🤝 Contributing
-
-Feel free to fork this repo and add:
-- More functions to test
-- Better test coverage
-- Build system improvements (e.g., using `CMake`)
+The resulting static libraries will be in `googletest/build/lib/`.
 
 ---
 
-## 📜 License
-
-MIT License
-
----
-
-Happy Testing! 🧪🧠
+Feel free to fork this repo and use it as a base for your own C++ testing projects!
