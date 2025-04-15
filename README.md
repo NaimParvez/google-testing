@@ -1,69 +1,112 @@
+# 🧪 Google Testing with GTest (C++)
 
-# Google Testing with GTest (C++)
+This repository demonstrates how to write and run **unit tests in C++** using the **Google Test (GTest)** framework. It includes example programs, a shell script for building tests, and Google Test itself — no extra setup required!
 
-This repository contains simple C++ programs and corresponding **unit tests** using the **Google Test framework (GTest)**.
+---
 
 ## 📁 Project Structure
 
 ```
 .
-├── googletest/              # Cloned GoogleTest repo
-├── build.sh                 # Bash script to compile tests
-├── test_bignum.cpp          # Test cases using GTest
-├── bignum / test_bignum     # Executable output
-├── *.cpp                    # Other practice programs
+├── googletest/              # GoogleTest framework (already included)
+├── build.sh                 # Bash script to compile test files
+├── test_bignum.cpp          # Unit tests using GTest
+├── test_bignum              # Executables
+├── *.cpp                    # Practice programs
 └── README.md
 ```
 
-## 🧪 Sample Test: `test_bignum.cpp`
+---
 
-This file contains unit tests for a function that finds the **biggest among three numbers**.
+## 💻 Tested On
 
-Example function tested:
+- ✅ Linux (Ubuntu/Debian)
+- ⚠️ Not tested on Windows or macOS (but should work with some tweaks)
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/NaimParvez/google-testing.git
+cd google-testing
+```
+
+> ✅ No need to install GoogleTest manually — it's already included in the `googletest/` folder.
+
+---
+
+## 🛠 Compile and Run Tests
+
+### 2️⃣ Make `build.sh` Executable
+
+```bash
+chmod +x build.sh
+```
+
+### 3️⃣ Compile a Test File
+
+```bash
+./build.sh test_bignum.cpp
+```
+
+This will create an executable named `test_bignum`.
+
+### 4️⃣ Run the Tests
+
+```bash
+./test_bignum
+```
+
+You'll see the test output in GTest's clean and readable format.
+
+---
+
+## 🔎 Function Being Tested
 
 ```cpp
 int findBiggestNumber(int num1, int num2, int num3);
 ```
 
-GTest is used to check various conditions like:
-- First/Second/Third is largest
-- All values equal
-- Handling negative numbers
-
-## 🔧 Build and Run Tests
-
-Make sure you have `g++` installed and the [GoogleTest](https://github.com/google/googletest) repo cloned inside this project under `googletest/`.
-
-### ✅ Compile
-Use the provided `build.sh` script:
-
-```bash
-chmod +x build.sh
-./build.sh test_bignum.cpp
-```
-
-This will generate an executable `test_bignum`.
-
-### ▶️ Run
-```bash
-./test_bignum
-```
-
-## 📦 Dependencies
-
-- [Google Test](https://github.com/google/googletest)
-- `g++` (C++ compiler)
-- `pthread` library (linked automatically)
-
-To clone GTest (if not already present):
-```bash
-git clone https://github.com/google/googletest.git
-```
-
-## 📜 License
-
-This project is licensed under the MIT License. Feel free to use and extend it.
+Test cases include:
+- First, second, or third number being the biggest
+- Negative numbers
+- All numbers equal
 
 ---
 
-Happy testing! ✅
+## 📦 Requirements (for Linux)
+
+Make sure the following are installed:
+
+- `g++`
+- `make` (optional but useful)
+- `libpthread` (usually already included)
+
+Install via:
+
+```bash
+sudo apt update
+sudo apt install g++
+```
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork this repo and add:
+- More functions to test
+- Better test coverage
+- Build system improvements (e.g., using `CMake`)
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+Happy Testing! 🧪🧠
